@@ -52,4 +52,6 @@ Run the focused checks in tier order, then both builds:
 - Both test commands initially failed because Vitest was missing. `npm ci --prefix octofit-tracker/backend` and `npm ci --prefix octofit-tracker/frontend` succeeded.
 - `npm test --prefix octofit-tracker/backend`: 1 passed, 8 failed. Four data tests show missing required-field validation; the seed test passes. Four API tests show unimplemented activity and team creation, an empty leaderboard, and non-personalized suggestions.
 - `npm test --prefix octofit-tracker/frontend`: 15 failed. The placeholder screens do not yet render API data or the required loading, empty, and error states.
-- The focused backend commands and both build commands above have not yet been run.
+- After model validation changes, `npm run test:data --prefix octofit-tracker/backend` passed all 5 tests, including the seed preservation and idempotency test.
+- `npm run build --prefix octofit-tracker/backend` passed.
+- The focused API command and frontend build above have not yet been run.

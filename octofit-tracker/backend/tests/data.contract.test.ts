@@ -11,6 +11,10 @@ describe('OctoFit data contract', () => {
     expect(error?.errors.name).toBeDefined();
     expect(error?.errors.email).toBeDefined();
     expect(error?.errors.fitnessGoal).toBeDefined();
+    const blank = new User({ name: ' ', email: ' ', fitnessGoal: ' ' }).validateSync();
+    expect(blank?.errors.name).toBeDefined();
+    expect(blank?.errors.email).toBeDefined();
+    expect(blank?.errors.fitnessGoal).toBeDefined();
   });
   it('requires teams to have a name, mascot, and members array', () => {
     const team = new Team({ name: 'Octocats', mascot: 'Mona', members: [] });
@@ -24,6 +28,9 @@ describe('OctoFit data contract', () => {
     const missing = new Team({}).validateSync();
     expect(missing?.errors.name).toBeDefined();
     expect(missing?.errors.mascot).toBeDefined();
+    const blank = new Team({ name: ' ', mascot: ' ' }).validateSync();
+    expect(blank?.errors.name).toBeDefined();
+    expect(blank?.errors.mascot).toBeDefined();
   });
   it('requires activities to connect users, teams, types, minutes, points, and dates', () => {
     const activity = new Activity({});
@@ -34,6 +41,17 @@ describe('OctoFit data contract', () => {
     expect(error?.errors.minutes).toBeDefined();
     expect(error?.errors.points).toBeDefined();
     expect(error?.errors.occurredAt).toBeDefined();
+    const invalid = new Activity({
+      user: new mongoose.Types.ObjectId(),
+      team: new mongoose.Types.ObjectId(),
+      type: ' ',
+      minutes: 0,
+      points: -1,
+      occurredAt: new Date(),
+    }).validateSync();
+    expect(invalid?.errors.type).toBeDefined();
+    expect(invalid?.errors.minutes).toBeDefined();
+    expect(invalid?.errors.points).toBeDefined();
   });
   it('defines workout suggestions with focus, duration, and difficulty', () => {
     const workout = new Workout({ title: 'Intervals' });
@@ -41,6 +59,11 @@ describe('OctoFit data contract', () => {
     expect(error?.errors.focus).toBeDefined();
     expect(error?.errors.minutes).toBeDefined();
     expect(error?.errors.difficulty).toBeDefined();
+    const invalid = new Workout({ title: ' ', focus: ' ', minutes: 0, difficulty: ' ' }).validateSync();
+    expect(invalid?.errors.title).toBeDefined();
+    expect(invalid?.errors.focus).toBeDefined();
+    expect(invalid?.errors.minutes).toBeDefined();
+    expect(invalid?.errors.difficulty).toBeDefined();
   });
 
   it('seeds representative data for all four capabilities idempotently', async () => {
