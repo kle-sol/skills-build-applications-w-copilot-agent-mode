@@ -52,8 +52,11 @@ export async function createTeam(input: unknown) {
 
 export async function getLeaderboard() {
   const teams = await Team.aggregate<{ teamName: string; totalPoints: number }>([
-    { $lookup: { from: Activity.collection.name, localField: '_id', foreignField: 'team', as: 'activities' } },
-    { $project: { teamName: '$name', totalPoints: { $sum: '$activities.points' } } },
+    { $lookup: { from: Activity.collection.name, let: { teamId: '$_id' }, pipeline: [
+      { $match: { $expr: { $eq: ['$team', '$$teamId'] } } },
+      { $group: { _id: null, totalPoints: { $sum: '$points' } } },
+    ], as: 'activities' } },
+    { $project: { teamName: '$name', totalPoints: { $ifNull: [{ $arrayElemAt: ['$activities.totalPoints', 0] }, 0] } } },
     { $sort: { totalPoints: -1, teamName: 1, _id: 1 } },
   ]);
   return teams.map(({ teamName, totalPoints }, index) => ({ teamName, totalPoints, rank: index + 1 }));
