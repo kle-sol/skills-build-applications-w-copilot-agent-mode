@@ -54,4 +54,5 @@ Run the focused checks in tier order, then both builds:
 - `npm test --prefix octofit-tracker/frontend`: 15 failed. The placeholder screens do not yet render API data or the required loading, empty, and error states.
 - After model validation changes, `npm run test:data --prefix octofit-tracker/backend` passed all 5 tests, including the seed preservation and idempotency test.
 - `npm run build --prefix octofit-tracker/backend` passed.
+- After logic-tier changes, `npm test --prefix octofit-tracker/backend` passed all 18 tests; the `contract-api` and `step3-api` grading checks also passed.
 - The focused API command and frontend build above have not yet been run.
