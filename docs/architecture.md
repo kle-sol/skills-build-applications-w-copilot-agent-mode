@@ -55,4 +55,5 @@ Run the focused checks in tier order, then both builds:
 - After model validation changes, `npm run test:data --prefix octofit-tracker/backend` passed all 5 tests, including the seed preservation and idempotency test.
 - `npm run build --prefix octofit-tracker/backend` passed.
 - After logic-tier changes, `npm test --prefix octofit-tracker/backend` passed all 18 tests; the `contract-api` and `step3-api` grading checks also passed.
-- The focused API command and frontend build above have not yet been run.
+- After presentation-tier changes, `npm test --prefix octofit-tracker/frontend` passed all 23 tests, `npm run build --prefix octofit-tracker/frontend` passed, and the `step4-frontend` grading check passed.
+- The focused API command above has not yet been run.
